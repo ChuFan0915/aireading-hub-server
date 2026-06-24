@@ -1,0 +1,52 @@
+{
+  "name": "novelreader-server",
+  "version": "1.0.0",
+  "description": "Novel Reader Backend Server",
+  "main": "dist/app.js",
+  "scripts": {
+    "dev": "tsx watch src/app.ts",
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@koa/cors": "^5.0.0",
+    "@koa/router": "^15.5.0",
+    "@prisma/client": "^6.19.3",
+    "adm-zip": "^0.5.17",
+    "bcryptjs": "^3.0.3",
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.4.2",
+    "iconv-lite": "^0.7.2",
+    "jsonwebtoken": "^9.0.3",
+    "koa": "^3.2.0",
+    "koa-body": "^8.0.0",
+    "mysql2": "^3.22.3",
+    "playwright": "^1.60.0",
+    "resend": "^6.12.3",
+    "submail": "^0.0.2",
+    "uuid": "^14.0.0",
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.8",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/koa": "^3.0.2",
+    "@types/koa__cors": "^5.0.1",
+    "@types/node": "^25.7.0",
+    "@types/uuid": "^10.0.0",
+    "@types/xml2js": "^0.4.14",
+    "prisma": "^6.19.3",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}

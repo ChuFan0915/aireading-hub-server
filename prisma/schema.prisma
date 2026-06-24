@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 用户模型
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique @db.VarChar(50)
+  password  String   @db.VarChar(255)
+  email     String?  @unique @db.VarChar(100)
+  role      String   @default("USER") @db.VarChar(20)
+  avatar    String?  @db.VarChar(500)
+  nickname  String?  @db.VarChar(50)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  bookshelves Bookshelf[]
+  @@map("users")
+}
+
+// 小说模型
+model Book {
+  id         String   @id @default(cuid())
+  name       String   @db.VarChar(200)
+  author     String   @db.VarChar(100)
+  cover      String?  @db.VarChar(500)
+  desc       String?  @db.Text
+  category   String?  @db.VarChar(50)
+  status     String   @default("ongoing") @db.VarChar(20)
+  thomeColor String?  @map("thome_color") @db.VarChar(20)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  bookshelves Bookshelf[]
+  chapters    Chapter[]
+
+  @@map("books")
+}
+
+// 书架模型
+model Bookshelf {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  bookId    String   @map("book_id")
+  progress  Float    @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookId])
+  @@map("bookshelves")
+}
+// 章节模型
+model Chapter {
+  id          String   @id @default(cuid())
+  bookId      String   @map("book_id")
+  title       String   @db.VarChar(500)
+  index       Float
+  content     String?  @db.MediumText
+  contentPath String?  @map("content_path") @db.VarChar(500)
+  sourceUrl   String?  @map("source_url") @db.VarChar(1000)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([bookId, index])
+  @@map("chapters")
+}
